@@ -11,4 +11,8 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
         return userRepository.findOrNullByTelegramId(telegramId)
             ?: return userRepository.save(UserModel(telegramId = telegramId))
     }
+
+    override fun saveUser(user: UserModel) {
+        userRepository.save(user)
+    }
 }

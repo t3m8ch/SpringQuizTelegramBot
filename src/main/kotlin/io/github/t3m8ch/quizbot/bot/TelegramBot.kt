@@ -26,6 +26,7 @@ class TelegramBot(
     private fun handle(context: Context) {
         val handler = handlers.firstOrNull { it.filter(context) } ?: return
         handler.handle(context)
+        userService.saveUser(context.user)
     }
 
     private fun createContextFromUpdate(update: Update): Context {
