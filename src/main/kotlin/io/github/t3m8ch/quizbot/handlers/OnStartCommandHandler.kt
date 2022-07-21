@@ -1,5 +1,6 @@
 package io.github.t3m8ch.quizbot.handlers
 
+import io.github.t3m8ch.quizbot.context.Context
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 
