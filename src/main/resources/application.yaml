@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      uri: ${db_url}
+
+telegram:
+  bot-token: ${bot_token}
+  bot-username: ${bot_username}
