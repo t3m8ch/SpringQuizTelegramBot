@@ -1,4 +1,4 @@
-package io.github.t3m8ch.quizbot.components
+package io.github.t3m8ch.quizbot.bot
 
 import io.github.t3m8ch.quizbot.config.TelegramBotProps
 import io.github.t3m8ch.quizbot.context.Context
