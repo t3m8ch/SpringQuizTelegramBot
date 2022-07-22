@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService {
-    override fun getAll(pageIndex: Int, pageSize: Int): Page<QuizModel> {
+    override fun getPage(pageIndex: Int, pageSize: Int): Page<QuizModel> {
         return quizRepository.findAll(
             PageRequest.of(
                 pageIndex,
