@@ -6,10 +6,10 @@ import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGINATOR_MESSAGE_ID
 import io.github.t3m8ch.quizbot.context.Context
 import io.github.t3m8ch.quizbot.handlers.Handler
 import io.github.t3m8ch.quizbot.services.QuizService
+import io.github.t3m8ch.quizbot.utils.EmptyCallbackQueryAnswerSender
 import io.github.t3m8ch.quizbot.utils.buildQuizzesPaginatorKeyboard
 import org.springframework.stereotype.Component
 import org.telegram.abilitybots.api.util.AbilityUtils
-import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup
 
 @Component
@@ -21,10 +21,7 @@ class OnPreviousQuizPageCallbackQueryHandler(private val quizService: QuizServic
         var pageIndex = payload[QUIZZES_PAGE_INDEX] as Int
 
         if (pageIndex <= 0) {
-            val answer = AnswerCallbackQuery.builder()
-                .callbackQueryId(context.update.callbackQuery.id)
-                .build()
-            context.sender.execute(answer)
+            EmptyCallbackQueryAnswerSender(context.sender).send(context.update.callbackQuery.id)
             return
         }
 

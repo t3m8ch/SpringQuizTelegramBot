@@ -6,6 +6,7 @@ import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGINATOR_MESSAGE_ID
 import io.github.t3m8ch.quizbot.context.Context
 import io.github.t3m8ch.quizbot.handlers.Handler
 import io.github.t3m8ch.quizbot.services.QuizService
+import io.github.t3m8ch.quizbot.utils.EmptyCallbackQueryAnswerSender
 import io.github.t3m8ch.quizbot.utils.buildQuizzesPaginatorKeyboard
 import org.springframework.stereotype.Component
 import org.telegram.abilitybots.api.util.AbilityUtils.getChatId
@@ -18,12 +19,17 @@ class OnNextQuizPageCallbackQueryHandler(private val quizService: QuizService) :
     override fun handle(context: Context) {
         val payload = context.user.session.payload
         var pageIndex = payload[QUIZZES_PAGE_INDEX] as Int
+        val quizzesPage = quizService.getPage(pageIndex + 1, pageSize = 6)
+
+        if (quizzesPage.isEmpty) {
+            EmptyCallbackQueryAnswerSender(context.sender).send(context.update.callbackQuery.id)
+            return
+        }
 
         payload[QUIZZES_PAGE_INDEX] = ++pageIndex
 
         val messageId = payload[QUIZZES_PAGINATOR_MESSAGE_ID] as Int
 
-        val quizzesPage = quizService.getPage(pageIndex, pageSize = 6)
         val editMessage = EditMessageReplyMarkup.builder()
             .replyMarkup(buildQuizzesPaginatorKeyboard(quizzesPage, pageIndex))
             .chatId(getChatId(context.update))
