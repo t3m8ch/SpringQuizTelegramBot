@@ -4,12 +4,11 @@ import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGE_INDEX
 import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGINATOR_MESSAGE_ID
 import io.github.t3m8ch.quizbot.context.Context
 import io.github.t3m8ch.quizbot.handlers.Handler
+import io.github.t3m8ch.quizbot.utils.MessageRevoker
 import io.github.t3m8ch.quizbot.utils.QuizzesPaginatorKeyboardBuilder
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 @Component
 class OnQuizzesCommandHandler(private val keyboardBuilder: QuizzesPaginatorKeyboardBuilder) : Handler(
@@ -19,21 +18,8 @@ class OnQuizzesCommandHandler(private val keyboardBuilder: QuizzesPaginatorKeybo
         val pageIndex = 0
         val payload = context.user.session.payload
 
-        val paginatorMessageId = payload.getOrDefault(QUIZZES_PAGINATOR_MESSAGE_ID, null)
-        if (paginatorMessageId != null) {
-            val deleteMessage = DeleteMessage.builder()
-                .chatId(context.update.message.chatId)
-                .messageId(paginatorMessageId as Int)
-                .build()
-
-            try {
-                context.sender.execute(deleteMessage)
-            } catch (e: TelegramApiException) {
-                logger.warn("Failed to delete message with ID: $paginatorMessageId", e)
-            }
-
-            payload[QUIZZES_PAGINATOR_MESSAGE_ID] = null
-        }
+        val paginatorMessageId = payload.getOrDefault(QUIZZES_PAGINATOR_MESSAGE_ID, null) as Int?
+        MessageRevoker(context).revokeMessage(paginatorMessageId, QUIZZES_PAGINATOR_MESSAGE_ID)
 
         payload[QUIZZES_PAGE_INDEX] = pageIndex
 
