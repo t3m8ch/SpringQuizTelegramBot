@@ -1,4 +1,4 @@
-package io.github.t3m8ch.quizbot.handlers.quizzesCommandHandlers
+package io.github.t3m8ch.quizbot.handlers.quizzesPaginator
 
 import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGE_INDEX
 import io.github.t3m8ch.quizbot.constants.QUIZZES_PAGINATOR_MESSAGE_ID
