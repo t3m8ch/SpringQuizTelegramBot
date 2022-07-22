@@ -32,8 +32,4 @@ class OnQuizzesCommandHandler(private val keyboardBuilder: QuizzesPaginatorKeybo
         val message = context.sender.execute(sendMessage)
         payload[QUIZZES_PAGINATOR_MESSAGE_ID] = message.messageId
     }
-
-    companion object {
-        private val logger = LoggerFactory.getLogger(OnQuizzesCommandHandler::class.java)
-    }
 }
