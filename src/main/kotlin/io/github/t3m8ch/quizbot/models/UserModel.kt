@@ -19,6 +19,10 @@ data class UserSession(
     var state: States,
     var payload: MutableMap<String, Any?>,
 ) {
+    fun clean() {
+        payload = mutableMapOf()
+    }
+
     companion object {
         fun empty() = UserSession(States.INIT, mutableMapOf())
     }
