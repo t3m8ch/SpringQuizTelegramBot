@@ -28,7 +28,7 @@ class QuizzesPaginatorKeyboardBuilderImpl(private val quizService: QuizService) 
                     .callbackData(PREVIOUS_QUIZ_PAGE)
                     .build(),
                 InlineKeyboardButton.builder()
-                    .text((pageIndex + 1).toString())
+                    .text("${pageIndex + 1}/${quizzes.totalPages}")
                     .callbackData(CURRENT_QUIZ_PAGE)
                     .build(),
                 InlineKeyboardButton.builder()
